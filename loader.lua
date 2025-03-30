@@ -62,7 +62,8 @@ local OreCheckHop = coroutine.create(function()
 	NotificationLibrary:SendNotification("Info", "Initiating auto serverhop...", 5)
 	while true do
 		repeat
-			task.wait()
+			task.wait(1)
+			NotificationLibrary:SendNotification("Warning", "Waiting for best mine...", 1)
 		until workspace.__THINGS.BlockWorlds:FindFirstChild("Blocks_8") ~= nil
 		if #workspace.__THINGS.BlockWorlds.Blocks_8:GetChildren() <= 0 then
 			Checked = Checked + 1
