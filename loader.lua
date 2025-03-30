@@ -64,11 +64,15 @@ local OreCheckHop = coroutine.create(function()
 	while true do
 		if workspace.__THINGS.BlockWorlds:FindFirstChild("Blocks_8") and #workspace.__THINGS.BlockWorlds.Blocks_8:GetChildren() <= 0 then
 			Checked = Checked + 1
-			NotificationLibrary:SendNotification("Warning", "No blocks found in mine...", 5)
+			NotificationLibrary:SendNotification("Warning", "No blocks found in mine... Serverhopping in "..tostring(3-Checked), 5)
 			if Checked > 2 then
-				Serverhop()
+				while task.wait(10) do
+					Serverhop()
+				end
 				break
 			end
+		else
+			Checked = 0
 		end
 		task.wait(1)
 	end
