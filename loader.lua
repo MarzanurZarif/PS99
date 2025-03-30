@@ -38,6 +38,7 @@ local OreCheckHop = coroutine.create(function()
 				Serverhop()
 			end
 		end
+		task.wait(1)
 	end
 end)
 coroutine.resume(OreCheckHop)
