@@ -30,7 +30,7 @@ local OreCheckHop = coroutine.create(function()
 	while true do
 		repeat
 			task.wait()
-		until workspace.__THINGS.BlockWorlds:FindFirstChild("Blocks_8")
+		until workspace.__THINGS.BlockWorlds:FindFirstChild("Blocks_8") ~= nil
 		if #workspace.__THINGS.BlockWorlds.Blocks_8:GetChildren() <= 0 then
 			Checked = Checked + 1
 			NotificationLibrary:SendNotification("Warning", "No blocks found in mine...", 5)
