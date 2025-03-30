@@ -4,7 +4,6 @@ if not game:IsLoaded() then
 	print("Waiting for game to load...")
     game.Loaded:Wait()
 end
-task.wait(1)
 print("Game Loaded...")
 
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
