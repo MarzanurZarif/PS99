@@ -93,7 +93,7 @@ end
 Antilag()
 
 local function UnequipHover()
-	game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Hoverboard_RequestUnequip"):FireServer()
+     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Hoverboard_RequestUnequip"):FireServer()
 end
 
 UnequipHover()
@@ -105,14 +105,14 @@ local TeleportCheck = false
 Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if (not TeleportCheck) and queueteleport then
 		TeleportCheck = true
-		queueteleport("")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/MarzanurZarif/PS99/refs/heads/main/loader.lua'))()")
 	end
 end)
 
 GuiService.ErrorMessageChanged:Connect(function()
 	print("Error Message")
 	while true do
-		task.wait(10)
-    	Serverhop()
+	    task.wait(10)
+    	    Serverhop()
 	end
 end)
