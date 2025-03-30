@@ -10,6 +10,7 @@ end
 print("Game Loaded...")
 NotificationLibrary:SendNotification("Success", "Game Loaded...", 5)
 
+TeleportService = cloneref(game:GetService("TeleportService"))
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
 HttpService = cloneref(game:GetService("HttpService"))
 httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
