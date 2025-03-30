@@ -11,6 +11,9 @@ print("Game Loaded...")
 NotificationLibrary:SendNotification("Success", "Game Loaded...", 5)
 
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+HttpService = cloneref(game:GetService("HttpService"))
+httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+
 local autoexe = coroutine.create(function()
 	local TeleportCheck = false
 	print("Initiating autoexe...")
@@ -23,6 +26,36 @@ local autoexe = coroutine.create(function()
 	end)
 end)
 coroutine.resume(autoexe)
+
+local function Serverhop()
+	print("Server hopping...")
+	NotificationLibrary:SendNotification("Info", "Server hopping...", 5)
+    if httprequest then
+        local server = nil
+        local req = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true", game.PlaceId)})
+        local body = HttpService:JSONDecode(req.Body)
+
+        if body and body.data then
+            local BestFPS = 0
+            local BestPing = math.huge
+            for i, v in next, body.data do
+                if type(v) == "table" and 
+				tonumber(v.playing) and tonumber(v.maxPlayers) and tonumber(v.fps) and tonumber(v.ping) and 
+				v.playing < v.maxPlayers and v.id ~= JobId and 
+				tonumber(v.fps) >= BestFPS and tonumber(v.ping) <= BestPing then
+                    BestFPS = tonumber(v.fps)
+                    BestPing = tonumber(v.ping)
+                    server = v.id
+                end
+                task.wait()
+            end
+        end
+
+        if server then
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, server, game.Players.LocalPlayer)
+        end
+    end
+end
 
 local OreCheckHop = coroutine.create(function()
 	local Checked = 0
