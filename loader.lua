@@ -53,7 +53,27 @@ local function Serverhop()
         end
 
         if server then
-            TeleportService:TeleportToPlaceInstance(game.PlaceId, server, game.Players.LocalPlayer)
+			local success, result = pcall(function()
+				return TeleportService:TeleportToPlaceInstance(game.PlaceId, server, game.Players.LocalPlayer)
+			end)
+			
+			if not success then
+				warn(result)
+				NotificationLibrary:SendNotification("Error", result, 5)
+			end
+			
+	    	TeleportService.TeleportInitFailed:Connect(function(player, teleportResult, errorMessage)
+		        if player == game.Players.LocalPlayer then
+		            print("Teleport failed, TeleportResult: "..teleportResult.Name)
+					NotificationLibrary:SendNotification("Error", "Teleport failed, TeleportResult: "..teleportResult.Name, 5)
+		            if teleportResult == Enum.TeleportResult.Failiure or teleportResult == Enum.TeleportResult.Flooded then
+		                task.wait(5)
+						print("Reattempting teleport")
+						NotificationLibrary:SendNotification("Info", "Retrying simple teleport...", 5)
+						TeleportService:Teleport(game.PlaceId, game.Players.LocalPlayer)
+		            end
+		        end
+		    end)
         end
     end
 end
@@ -66,9 +86,7 @@ local OreCheckHop = coroutine.create(function()
 			Checked = Checked + 1
 			NotificationLibrary:SendNotification("Warning", "No blocks found in mine... Serverhopping in "..tostring(4-Checked), 1)
 			if Checked > 2 then
-				while task.wait(10) do
-					Serverhop()
-				end
+				Serverhop()
 				break
 			end
 		else
